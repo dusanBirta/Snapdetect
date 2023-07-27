@@ -2,10 +2,8 @@ from ultralytics import YOLO
 import streamlit as st
 import base64
 from PIL import Image
-import io
-import cv2
-import torch
 import numpy as np
+import cv2
 
 def main():
     st.title("Snapdetect")
@@ -37,6 +35,9 @@ def main():
             color = [int(c) for c in COLORS[int(class_num) % len(COLORS)]]
             cv2.rectangle(img_array, (int(x1), int(y1)), (int(x2), int(y2)), color, 3)
             cv2.putText(img_array, label, (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 3)  # Increased font size
+
+        # Convert from BGR to RGB
+        img_array = cv2.cvtColor(img_array, cv2.COLOR_BGR2RGB)
 
         # Convert the image array to bytes
         is_success, img_buffer = cv2.imencode(".png", img_array)
